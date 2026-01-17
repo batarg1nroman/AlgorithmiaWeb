@@ -41,7 +41,7 @@ async def index(request: Request, current_user: User = Depends(get_current_user)
 
     # Получаем ближайшие занятия
     upcoming_schedule = db.query(Schedule).filter(
-        Schedule.user_id == current_user.id,
+        (Schedule.student_id == current_user.id) | (Schedule.teacher_id == current_user.id),
         Schedule.start_time > datetime.now()
     ).order_by(Schedule.start_time).limit(5).all()
 
@@ -49,11 +49,11 @@ async def index(request: Request, current_user: User = Depends(get_current_user)
     if current_user.is_teacher:
         recent_homework = db.query(Homework).filter(
             Homework.teacher_id == current_user.id
-        ).order_by(Homework.deadline.desc()).limit(5).all()
+        ).order_by(Homework.due_date.desc()).limit(5).all()
     else:
         recent_homework = db.query(Homework).filter(
-            Homework.user_id == current_user.id
-        ).order_by(Homework.deadline.desc()).limit(5).all()
+            Homework.student_id == current_user.id
+        ).order_by(Homework.due_date.desc()).limit(5).all()
 
     return templates.TemplateResponse(
         "index.html",

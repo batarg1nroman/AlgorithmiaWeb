@@ -2,7 +2,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from ..database import Base
+from app.database import Base
 
 
 class User(Base):
@@ -15,6 +15,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     is_verified = Column(Boolean, default=False)
+    is_teacher = Column(Boolean, default=False)
     phone_number = Column(String, nullable=True)  # Для SMS уведомлений
 
     # Новые поля для уведомлений
