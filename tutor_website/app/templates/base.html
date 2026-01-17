@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Platform - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/">TutorPlatform</a>
+            </div>
+            <div class="nav-menu">
+                {% if current_user %}
+                    <a href="/" class="nav-link"><i class="fas fa-home"></i> Главная</a>
+                    <a href="/schedule" class="nav-link"><i class="fas fa-calendar"></i> Расписание</a>
+                    <a href="/homework" class="nav-link"><i class="fas fa-tasks"></i> Домашние задания</a>
+                    <a href="/knowledge-base" class="nav-link"><i class="fas fa-book"></i> База знаний</a>
+                    <a href="/profile" class="nav-link"><i class="fas fa-user"></i> Профиль</a>
+                    {% if current_user.is_teacher %}
+                        <a href="/schedule/manage" class="nav-link"><i class="fas fa-cog"></i> Управление</a>
+                    {% endif %}
+                    <a href="/auth/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                {% else %}
+                    <a href="/auth/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Войти</a>
+                    <a href="/auth/register" class="nav-link"><i class="fas fa-user-plus"></i> Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Кнопка AI Assistant -->
+    <button id="ai-assistant-btn" class="ai-assistant-btn">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- Модальное окно AI Assistant -->
+    <div id="ai-assistant-modal" class="ai-assistant-modal">
+        <div class="ai-assistant-content">
+            <div class="ai-assistant-header">
+                <h3>Algorithmia AI Assistant</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="ai-assistant-body">
+                <div id="ai-chat-messages" class="ai-chat-messages"></div>
+                <div class="ai-chat-input-area">
+                    <textarea id="ai-chat-input" placeholder="Задайте вопрос AI ассистенту..." rows="3"></textarea>
+                    <div class="ai-chat-controls">
+                        <label for="ai-file-upload" class="ai-file-upload-btn">
+                            <i class="fas fa-paperclip"></i>
+                        </label>
+                        <input type="file" id="ai-file-upload" accept="image/*" style="display: none;">
+                        <button id="ai-send-btn" class="ai-send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/main.js"></script>
+    <script src="/static/js/ai_assistant.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>База знаний - Tutor Platform</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>База знаний</h1>
+
+        <div class="search-box">
+            <form action="/knowledge/search" method="get">
+                <input type="text" name="query" placeholder="Поиск по базе знаний..." required>
+                <select name="subject">
+                    <option value="">Все предметы</option>
+                    <option value="math">Математика</option>
+                    <option value="physics">Физика</option>
+                    <option value="chemistry">Химия</option>
+                    <option value="programming">Программирование</option>
+                </select>
+                <button type="submit">Найти</button>
+            </form>
+        </div>
+
+        <div class="subjects-grid">
+            {% for subject in subjects %}
+            <a href="/knowledge/{{ subject|lower }}" class="subject-card">
+                <h3>{{ subject }}</h3>
+                <p>Изучайте материалы по {{ subject }}</p>
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="recent-topics">
+            <h2>Недавние темы</h2>
+            <div id="recent-topics-list">
+                <!-- Загрузится через JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/knowledge_base.js"></script>
+</body>
+</html>
